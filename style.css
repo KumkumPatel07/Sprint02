@@ -1,0 +1,68 @@
+
+body{
+    font-family: Arial, Helvetica, sans-serif;
+    background: #f4f4f4;
+     background-image: url("backg.jpg");
+}
+
+.container{
+    width:450px;
+    margin:40px auto;
+    background: rgb(239, 234, 237);
+    padding:20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px gray;
+
+
+}
+
+h1,h2{
+    text-align: center;
+    color:black;
+}
+
+label{
+    display:block;
+    margin-top: 10px;
+    font-weight: bold;
+    color:black;
+}
+
+input{
+    width:100%;
+    padding:10px;
+    margin-top: 5px;
+    margin-bottom: 15px;
+    box-sizing: border-box;
+}
+
+button{
+    width:100%;
+    padding:10px;
+    background:#007bff;
+    color:white;
+    border:none;
+    cursor:pointer;
+}
+
+button:hover{
+    background: #0056b3;
+    cursor:pointer;
+}
+
+#error{
+    color:red;
+    text-align:center;
+    font-weight: bold;
+}
+
+ul{
+    list-style: none;
+    padding:0;
+}
+
+li{
+    background: #e8e8e8;
+    margin:8px 0;
+    padding:10px;
+}

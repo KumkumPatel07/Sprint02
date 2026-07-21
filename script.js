@@ -11,6 +11,8 @@ const balanceDisplay = document.getElementById("balanceDisplay");
 const expenseList = document.getElementById("expenseList");
 const error = document.getElementById("error");
 
+const downloadBtn = document.getElementById("downloadBtn");
+
 // State
 let totalSalary = 0;
 let expenses = [];
@@ -103,6 +105,48 @@ function updateChart(totalExpenses){
     });
 }
 
+//PDF Function
+function downloadReport() {
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF();
+    let y = 20;
+
+    doc.setFontSize(18);
+    doc.text("Expense Tracker Report", 20,y);
+
+    y += 15;
+
+    doc.setFontSize(12);
+    doc.text(`Total Salary: Rs. ${totalSalary}`,20, y); 
+
+    y += 10;
+
+    let totalExpenses = 0;
+
+    doc.text("Expenses: ",20,y);
+
+    y += 10;
+
+    expenses.forEach((expense) => {
+        doc.text(
+            `${expense.name} : Rs. ${expense.amount}`, 20,y );
+
+        totalExpenses += expense.amount;
+
+        y += 10;
+    });
+
+    const remainingBalance = totalSalary - totalExpenses;
+    y += 10;
+    doc.text(`Total Expenses: Rs. ${totalExpenses}`, 20, y);
+
+    y += 10;
+
+    doc.text(`Remaining Balance : Rs. ${remainingBalance}`, 20, y);
+
+    doc.save("Expense_Report.pdf");
+
+}
 // Delete
 function deleteExpense(index){
 
@@ -167,4 +211,8 @@ form.addEventListener("submit",function(e){
 
 });
 
+// downloadBtn.addEventListener("click", downloadReport);
+document
+   .getElementById("downloadBtn")
+   .addEventListener("click",downloadReport);
 renderData();

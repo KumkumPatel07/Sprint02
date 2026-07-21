@@ -93,6 +93,22 @@ canvas{
     display: block;
 }
 
+.warning-banner{
+    display: none;
+    background: #ff4d4d;
+    color:white;
+    padding:12px;
+    margin-top: 15px;
+    border-radius: 8px;
+    text-align: center;
+    font-weight: bold;
+}
+
+.low-balance{
+    color:red;
+    font-weight: bold;
+}
+
 @media(max-width: 768px){
     .container{
         width:90%;

@@ -13,6 +13,7 @@ const error = document.getElementById("error");
 
 const downloadBtn = document.getElementById("downloadBtn");
 
+const warningBanner = document.getElementById("warningBanner");
 // State
 let totalSalary = 0;
 let expenses = [];
@@ -69,7 +70,24 @@ function renderData(){
 
     totalExpenseDisplay.innerText = totalExpenses;
 
-    balanceDisplay.innerText = totalSalary-totalExpenses;
+    const remainingBalance = totalSalary - totalExpenses;
+
+balanceDisplay.innerText = remainingBalance;
+
+// Threshold Alert
+if (remainingBalance < totalSalary * 0.10) {
+
+    balanceDisplay.classList.add("low-balance");
+
+    warningBanner.style.display = "block";
+
+} else {
+
+    balanceDisplay.classList.remove("low-balance");
+
+    warningBanner.style.display = "none";
+
+}
 
     updateChart(totalExpenses);
 
@@ -147,6 +165,7 @@ function downloadReport() {
     doc.save("Expense_Report.pdf");
 
 }
+
 // Delete
 function deleteExpense(index){
 
@@ -215,4 +234,5 @@ form.addEventListener("submit",function(e){
 document
    .getElementById("downloadBtn")
    .addEventListener("click",downloadReport);
-renderData();
+   
+   renderData();

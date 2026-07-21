@@ -14,6 +14,7 @@ const error = document.getElementById("error");
 // State
 let totalSalary = 0;
 let expenses = [];
+let expenseChart;
 
 //Load local Storage
 if(localStorage.getItem("salary")){
@@ -68,6 +69,38 @@ function renderData(){
 
     balanceDisplay.innerText = totalSalary-totalExpenses;
 
+    updateChart(totalExpenses);
+
+}
+
+function updateChart(totalExpenses){
+    const remainingBalance = totalSalary - totalExpenses;
+    const ctx = document.getElementById("expenseChart").getContext("2d");
+    if(expenseChart){
+        expenseChart.destroy();
+    }
+    expenseChart = new Chart(ctx,{
+        type : "pie",
+        data : {
+            labels : ["Remaining Balance", "Total Expenses"],
+            datasets : [{
+                data : [remainingBalance, totalExpenses],
+                backgroundColor: [
+                    "#218cde",
+                    "#ec2883"
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: "bottom"
+                }
+            }
+        }
+    });
 }
 
 // Delete

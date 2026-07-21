@@ -87,6 +87,12 @@ li{
     color:white;
 }
 
+canvas{
+    max-width: 350px;
+    margin: 20px auto;
+    display: block;
+}
+
 @media(max-width: 768px){
     .container{
         width:90%;

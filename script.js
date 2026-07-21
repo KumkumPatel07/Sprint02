@@ -1,75 +1,137 @@
-alert("JavaScript Loaded");
-console.log("JavaScript Loaded");
+const form = document.getElementById("expenseForm");
 
-const form =
- document.getElementById("expenseForm");
+const salaryInput = document.getElementById("salary");
+const expenseNameInput = document.getElementById("expenseName");
+const expenseAmountInput = document.getElementById("expenseAmount");
 
- const salaryInput = document.getElementById("salary");
- const expenseNameInput = document.getElementById("expenseName");
- const expenseAmountInput = document.getElementById("expenseAmount");
+const salaryDisplay = document.getElementById("salaryDisplay");
+const totalExpenseDisplay = document.getElementById("totalExpenseDisplay");
+const balanceDisplay = document.getElementById("balanceDisplay");
 
- const salaryDisplay = document.getElementById("salaryDisplay");
- const totalExpenseDisplay = document.getElementById("totalExpenseDisplay");
- const balanceDisplay = document.getElementById("balanceDisplay");
+const expenseList = document.getElementById("expenseList");
+const error = document.getElementById("error");
 
- const expenseList = document.getElementById("expenseList");
+// State
+let totalSalary = 0;
+let expenses = [];
 
- const error = document.getElementById("error");
+//Load local Storage
+if(localStorage.getItem("salary")){
 
- //Variables
- let totalSalary = 0;
- let totalExpenses = 0;
+    totalSalary = JSON.parse(localStorage.getItem("salary"));
 
- //Form Submit
- form.addEventListener("submit", function(event){
+}
 
-    event.preventDefault();
-    alert("Form Submitted");
-    console.log("Button Clicked");
+if(localStorage.getItem("expenses")){
 
-    const salary = Number(salaryInput.value);
-    const expenseName = expenseNameInput.value.trim();
-    const expenseAmount = Number(expenseAmountInput.value);
+    expenses = JSON.parse(localStorage.getItem("expenses"));
 
-    //Validation
+}
 
-    if(
-        salaryInput.value === "" ||
-        expenseName === "" ||
-        expenseAmountInput.value === ""
-    ){
-        error.innerText="All fields are required.";
-        return;
-    }
+// Save
+function saveData(){
 
-    if (salary < 0 || expenseAmount < 0){
-        error.innerText = "Negative values are not allowed."
-        return;
-    }
+    localStorage.setItem("salary",JSON.stringify(totalSalary));
 
-    error.innerText="";
+    localStorage.setItem("expenses",JSON.stringify(expenses));
 
-    //Save salary
-    totalSalary = salary;
+}
 
-    //Add expenses
-    totalExpenses += expenseAmount;
+// Render 
+function renderData(){
 
-    //Update Summary
     salaryDisplay.innerText = totalSalary;
+
+    expenseList.innerHTML="";
+
+    let totalExpenses = 0;
+
+    expenses.forEach(function(expense,index){
+
+        totalExpenses += expense.amount;
+
+        const li=document.createElement("li");
+
+        li.innerHTML=`
+            <span>${expense.name} - ₹${expense.amount}</span>
+
+            <button class="delete-btn" onclick="deleteExpense(${index})">
+                🗑️
+            </button>
+        `;
+
+        expenseList.appendChild(li);
+
+    });
 
     totalExpenseDisplay.innerText = totalExpenses;
 
     balanceDisplay.innerText = totalSalary-totalExpenses;
 
-    //Create Expense List Item
-    const li=document.createElement("li");
+}
 
-    li.innerText=expenseName+" : ₹"+expenseAmount;
+// Delete
+function deleteExpense(index){
 
-    expenseList.appendChild(li);
+    expenses.splice(index,1);
 
-    //Clear Expense Fields
-    expenseNameInput.value = "";
-    expenseAmountInput.value = "";
- });
+    saveData();
+
+    renderData();
+
+}
+
+//Submit
+form.addEventListener("submit",function(e){
+
+    e.preventDefault();
+
+    const salary=Number(salaryInput.value);
+
+    const expenseName=expenseNameInput.value.trim();
+
+    const expenseAmount=Number(expenseAmountInput.value);
+
+    if(
+        salaryInput.value===""||
+        expenseName===""||
+        expenseAmountInput.value===""){
+            error.innerText="All fields are required.";
+            return;
+        }
+
+    if(salary<0||expenseAmount<0){
+
+        error.innerText="Negative values are not allowed.";
+
+        return;
+
+    }
+    if(salary<expenseAmount){
+        error.innerText="Expense can not be more than Salary.";
+        return;
+    }
+
+    error.innerText="";
+
+    totalSalary=salary;
+
+    expenses.push({
+
+        name:expenseName,
+
+        amount:expenseAmount
+
+    });
+
+    saveData();
+
+    renderData();
+
+    expenseNameInput.value="";
+
+    expenseAmountInput.value="";
+
+});
+
+renderData();

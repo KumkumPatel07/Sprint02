@@ -12,6 +12,7 @@ const expenseList = document.getElementById("expenseList");
 const error = document.getElementById("error");
 
 const downloadBtn = document.getElementById("downloadBtn");
+const newDataBtn = document.getElementById("newDataBtn");
 
 const warningBanner = document.getElementById("warningBanner");
 // State
@@ -166,6 +167,45 @@ function downloadReport() {
 
 }
 
+//clear data
+
+function clearData(){
+
+    //Reset variables
+    totalSalary = 0;
+    expenses = [];
+   
+    //Remove Local Storage
+    localStorage.removeItem("salary");
+    localStorage.removeItem("expenses");
+    
+    //Clear inputs
+    salaryInput.value = "";
+    expenseNameInput.value = "";
+    expenseAmountInput.value = "";
+    
+    //Clear UI
+    salaryDisplay.innerText = "0";
+    totalExpenseDisplay.innerText = "0";
+    balanceDisplay.innerText = "0";
+
+    expenseList.innerHTML = "";
+
+    error.innerText = "";
+
+    //Hide warning banner
+    if(warningBanner){
+        warningBanner.style.display = "none";
+    }
+
+    //Reset chart
+    if(expenseChart) {
+        expenseChart.destroy();
+        expenseChart = null;
+    }
+    alert("Previous data cleared successfully!!");
+}
+
 // Delete
 function deleteExpense(index){
 
@@ -234,5 +274,7 @@ form.addEventListener("submit",function(e){
 document
    .getElementById("downloadBtn")
    .addEventListener("click",downloadReport);
+
+   newDataBtn.addEventListener("click", clearData);
    
    renderData();

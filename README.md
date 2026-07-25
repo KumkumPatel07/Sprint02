@@ -102,7 +102,9 @@ Expense-Tracker/
 
 ## 📷 Screenshots
 
-Add screenshots of your application here.
+![Desktop View](image/desktopView.png)
+![Mobile View](image/MobileView1.png)
+![Mobile View](image/MobileView2.png)
 
 
 ---

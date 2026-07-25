@@ -45,7 +45,7 @@ function saveData(){
 // Render 
 function renderData(){
 
-    salaryDisplay.innerText = totalSalary;
+  salaryDisplay.innerText = totalSalary;
 
     expenseList.innerHTML="";
 
@@ -58,7 +58,7 @@ function renderData(){
         const li=document.createElement("li");
 
         li.innerHTML=`
-            <span>${expense.name} - ₹${expense.amount}</span>
+         <span>${expense.name} - ₹${expense.amount}</span>
 
             <button class="delete-btn" onclick="deleteExpense(${index})">
                 🗑️
@@ -69,7 +69,7 @@ function renderData(){
 
     });
 
-    totalExpenseDisplay.innerText = totalExpenses;
+   totalExpenseDisplay.innerText = totalExpenses;
 
     const remainingBalance = totalSalary - totalExpenses;
 
@@ -157,7 +157,7 @@ function downloadReport() {
 
     const remainingBalance = totalSalary - totalExpenses;
     y += 10;
-    doc.text(`Total Expenses: Rs. ${totalExpenses}`, 20, y);
+    doc.text(`Total Expenses:Rs. ${totalExpenses}`, 20, y);
 
     y += 10;
 
@@ -166,6 +166,7 @@ function downloadReport() {
     doc.save("Expense_Report.pdf");
 
 }
+
 
 //clear data
 
